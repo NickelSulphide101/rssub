@@ -31,8 +31,8 @@ jobs:
 
     - name: Commit files
       run: |
-        git config --local user.email "zhaozengzhi1995@163.com"
-        git config --local user.name "ProgramCZ"
+        git config --local user.email "xtcfe20@foxmail.com"
+        git config --local user.name "xtcfe20"
         git add -A
         git commit -m "Update Articles"
         git push origin master
