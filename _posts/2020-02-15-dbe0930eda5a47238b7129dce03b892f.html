@@ -1,0 +1,161 @@
+---
+layout:      post
+title:       RSSub部署及使用指南
+link:        https://programcz.github.io/2020/02/15/RSSub%E9%83%A8%E7%BD%B2%E5%8F%8A%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html
+date:        2020-02-15 10:24:00
+category:    Blogs
+source:      ProgramCZ's Blog
+description: RSSub是一个无需自备服务器的RSS订阅器，完全由GitHub Actions驱动，同时也是一个无需专用客户端的RSS阅读器，完全由Jekyll和GitHub Pages驱动。  < --more-->  项目地址：ProgramCZ/rssub，欢迎Star来支持项目继续维护。 1 为什么要使用
+---
+
+<p><strong>RSSub是一个无需自备服务器的RSS订阅器，完全由GitHub Actions驱动，同时也是一个无需专用客户端的RSS阅读器，完全由Jekyll和GitHub Pages驱动。</strong></p>
+
+<!--more-->
+
+<p><strong>项目地址：<a href="https://github.com/ProgramCZ/rssub" target="_blank">ProgramCZ/rssub</a></strong>，欢迎Star来支持项目继续维护。</p>
+
+<h2 id="1-为什么要使用rssub">1 为什么要使用RSSub</h2>
+
+<ul>
+  <li>
+    <p><strong>无需服务器</strong>：用户添加订阅源并且设置同步时间，RSSub借助GitHub Actions自动运行爬虫脚本，即可拉取订阅内容。</p>
+  </li>
+  <li>
+    <p><strong>整理和排版</strong>：RSSub借助Jekyll自动整理和排版订阅内容。</p>
+  </li>
+  <li>
+    <p><strong>无需客户端</strong>：RSSub借助GitHub Pages向用户呈现订阅内容，用户使用浏览器访问指定地址，即可阅读订阅内容。</p>
+  </li>
+</ul>
+
+<h2 id="2-如何才能使用rssub">2 如何才能使用RSSub</h2>
+
+<h3 id="21-fork项目">2.1 Fork项目</h3>
+
+<p>项目地址：<a href="https://github.com/ProgramCZ/rssub" target="_blank">ProgramCZ/rssub</a></p>
+
+<h3 id="22-设置用户名和邮箱">2.2 设置用户名和邮箱</h3>
+
+<p>可以前往<code class="language-plaintext highlighter-rouge">.github/workflows/crawl-articles.yml</code>中设置用户名和邮箱，修改这里：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Commit files</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">git config --local user.email "zhaozengzhi1995@163.com"</span>
+    <span class="s">git config --local user.name "ProgramCZ"</span>
+    <span class="s">git add -A</span>
+    <span class="s">git commit -m "Update Articles"</span>
+</code></pre></div></div>
+
+<h3 id="23-添加订阅源">2.3 添加订阅源</h3>
+
+<p>可以前往<code class="language-plaintext highlighter-rouge">scripts/subscribe.json</code>中添加订阅源，形式如下：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+	</span><span class="nl">"Category-0"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+		</span><span class="nl">"Feed-A"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://a.site/feed.xml"</span><span class="p">,</span><span class="w">
+		</span><span class="nl">"Feed-B"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://b.site/feed.xml"</span><span class="w">
+	</span><span class="p">},</span><span class="w">
+	</span><span class="nl">"Category-1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+		</span><span class="nl">"Feed-C"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://c.site/feed.xml"</span><span class="w">
+	</span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>P.S. 如果发现不能解析的订阅源，欢迎前往<a href="https://github.com/ProgramCZ/rssub/issues" target="_blank">Issues</a>向我说明。</p>
+
+<h4 id="231-内置rsshub服务">2.3.1 内置RSSHub服务</h4>
+
+<p>RSSub内置<a href="https://docs.rsshub.app/" target="_blank">RSSHub</a>服务，也就是说每个用户都会有一个专属的<a href="https://docs.rsshub.app/" target="_blank">RSSHub</a>服务，所以如果添加<a href="https://docs.rsshub.app/" target="_blank">RSSHub</a>的订阅源，按照<code class="language-plaintext highlighter-rouge">http://127.0.0.1:1200/bbc/world</code>的形式即可。</p>
+
+<p>另外，可以前往<code class="language-plaintext highlighter-rouge">.github/workflows/crawl-articles.yml</code>中参考<a href="https://docs.rsshub.app/install/#tian-jia-pei-zhi-2" target="_blank">教程</a>自定义配置<a href="https://docs.rsshub.app/" target="_blank">RSSHub</a>服务，修改这里：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Setup RSSHub</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">docker pull diygod/rsshub</span>
+    <span class="s">docker run -d --name rsshub -p 1200:1200 diygod/rsshub</span>
+</code></pre></div></div>
+
+<h3 id="24-设置同步时间">2.4 设置同步时间</h3>
+
+<p>可以前往<code class="language-plaintext highlighter-rouge">.github/workflows/crawl-articles.yml</code>中参考<a href="https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule" target="_blank">教程</a>设置同步时间，修改这里：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">on</span><span class="pi">:</span> 
+  <span class="na">push</span><span class="pi">:</span>
+  <span class="na">schedule</span><span class="pi">:</span>
+    <span class="c1"># Update at 00:00, 04:00, 10:00, 14:00 of every day in UTC </span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">0</span><span class="nv"> </span><span class="s">0,4,10,14</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span> <span class="c1"># Modify here</span>
+</code></pre></div></div>
+
+<p>上述语句表示在每天的00:00，04:00，10:00和14:00同步订阅文章，需要注意的是此处为UTC时间，相当于北京时间减去八个小时。</p>
+
+<h3 id="25-设置站点信息">2.5 设置站点信息</h3>
+
+<p>可以前往<code class="language-plaintext highlighter-rouge">_config.yml</code>中设置站点标题，修改这里：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">title</span><span class="pi">:</span> <span class="s">ProgramCZ's RSSub</span>
+</code></pre></div></div>
+
+<p>设置站点根路径，一般为<code class="language-plaintext highlighter-rouge">https://username.github.io</code>，修改这里：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">url</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://programcz.github.io"</span> <span class="c1"># the base hostname &amp; protocol for your site, e.g. http://example.com</span>
+</code></pre></div></div>
+
+<p>设置站点时区，修改这里：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">timezone</span><span class="pi">:</span> <span class="s">Asia/Shanghai</span>
+</code></pre></div></div>
+
+<h3 id="26-开启pages服务">2.6 开启Pages服务</h3>
+
+<p>打开项目主页的<code class="language-plaintext highlighter-rouge">Setting/Options</code>：</p>
+
+<div align="center"><img alt="title" src="https://cdn.jsdelivr.net/gh/ProgramCZ/image_cloud_a@master/2020-02/00.png" width="100%" /></div>
+
+<p>开启Pages服务：</p>
+
+<div align="center"><img alt="title" src="https://cdn.jsdelivr.net/gh/ProgramCZ/image_cloud_a@master/2020-02/01.png" width="100%" /></div>
+
+<h3 id="27-阅读订阅文章">2.7 阅读订阅文章</h3>
+
+<p>访问上图中显示的地址即可阅读订阅文章，比如我的地址为<a href="https://programcz.github.io/rssub" target="_blank">https://programcz.github.io/rssub</a>。</p>
+
+<h2 id="3-关于rssub的一些问题">3 关于RSSub的一些问题</h2>
+
+<h3 id="31-rssub是否构成对于github的滥用行为">3.1 RSSub是否构成对于GitHub的滥用行为</h3>
+
+<p>这是我在开发这个项目的时候最先考虑的问题，所以我已发邮件询问GitHub，还未收到回复。</p>
+
+<p>如果GitHub认为RSSub构成滥用行为，我将立刻删除项目。</p>
+
+<h3 id="32-rssub是否构成对于文章原作者的侵权行为">3.2 RSSub是否构成对于文章原作者的侵权行为</h3>
+
+<p>为了确保RSSub只用于个人阅读，我在每个文章页面中都添加了<code class="language-plaintext highlighter-rouge">noindex</code>标签，可以有效阻止搜索引擎收录该页面，具体参考<a href="https://support.google.com/webmasters/answer/93710?hl=en" target="_blank">Block search indexing with ‘noindex’</a>。</p>
+
+<h2 id="4-关于rssub的后续规划">4 关于RSSub的后续规划</h2>
+
+<ul class="task-list">
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />解决某些站点的图片防盗链问题</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />优化文章排版</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />优化爬虫效率</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />支持按照订阅源浏览订阅文章</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />支持按日期浏览订阅文章</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />支持按日期爬取订阅源</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />支持使用<code class="language-plaintext highlighter-rouge">OPML</code>文件管理订阅源</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />添加英文文档</p>
+  </li>
+</ul>

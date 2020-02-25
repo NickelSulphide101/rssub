@@ -1,0 +1,296 @@
+---
+layout:      post
+title:       LeetCode Biweekly Contest 20 (1356~1359)
+link:        https://programcz.github.io/2020/02/23/LeetCode-Biweekly-Contest-20-(1356-1359).html
+date:        2020-02-23 10:24:00
+category:    Blogs
+source:      ProgramCZ's Blog
+description: LeetCode双周赛专题每双周日更新，点击标签CAT - LeetCode Biweekly Contest查看更多。  < --more-->  1356. Sort Integers by The Number of 1 Bits  Easy 题目描述 Given an integer arr
+---
+
+<p>LeetCode双周赛专题每双周日更新，点击标签<code class="language-plaintext highlighter-rouge">CAT - LeetCode Biweekly Contest</code>查看更多。</p>
+
+<!--more-->
+
+<h2 id="1356-sort-integers-by-the-number-of-1-bits-easy">1356. Sort Integers by The Number of 1 Bits #Easy</h2>
+
+<h3 id="题目描述">题目描述</h3>
+
+<p>Given an integer array <code class="language-plaintext highlighter-rouge">arr</code>. You have to sort the integers in the array in ascending order by the number of <strong>1’s</strong> in their binary representation and in case of two or more integers have the same number of <strong>1’s</strong> you have to sort them in ascending order.</p>
+
+<p>Return <em>the sorted array</em>.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: arr = [0,1,2,3,4,5,6,7,8]
+Output: [0,1,2,4,8,3,5,6,7]
+Explantion: [0] is the only integer with 0 bits.
+[1,2,4,8] all have 1 bit.
+[3,5,6] have 2 bits.
+[7] has 3 bits.
+The sorted array by bits is [0,1,2,4,8,3,5,6,7]
+</code></pre></div></div>
+
+<p><strong>Example 2:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: arr = [1024,512,256,128,64,32,16,8,4,2,1]
+Output: [1,2,4,8,16,32,64,128,256,512,1024]
+Explantion: All integers have 1 bit in the binary representation, you should just sort them in ascending order.
+</code></pre></div></div>
+
+<p><strong>Example 3:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: arr = [10000,10000]
+Output: [10000,10000]
+</code></pre></div></div>
+
+<p><strong>Example 4:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: arr = [2,3,5,7,11,13,17,19]
+Output: [2,3,5,17,7,11,13,19]
+</code></pre></div></div>
+
+<p><strong>Example 5:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: arr = [10,100,1000,10000]
+Output: [10,100,10000,1000]
+</code></pre></div></div>
+
+<p><strong>Constraints:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= arr.length &lt;= 500</code></li>
+  <li><code class="language-plaintext highlighter-rouge">0 &lt;= arr[i] &lt;= 10^4</code></li>
+</ul>
+
+<h3 id="题目解析">题目解析</h3>
+
+<p>首先，声明类型为<code class="language-plaintext highlighter-rouge">vector&lt;pair&lt;int, int&gt;&gt;</code>的<code class="language-plaintext highlighter-rouge">vp</code>，其中第<code class="language-plaintext highlighter-rouge">i</code>个元素表示<code class="language-plaintext highlighter-rouge">arr[i]</code>的二进制形式中<code class="language-plaintext highlighter-rouge">1</code>的个数和<code class="language-plaintext highlighter-rouge">arr[i]</code>值；其次，根据给出的数据范围，数字的位数最多为<code class="language-plaintext highlighter-rouge">14</code>，那么将<code class="language-plaintext highlighter-rouge">1</code>不断左移，与<code class="language-plaintext highlighter-rouge">arr</code>中的每个数字做与运算，判断该位是否为<code class="language-plaintext highlighter-rouge">1</code>，是则计数；最后，将<code class="language-plaintext highlighter-rouge">vp</code>从小到大进行排序，提取每个元素的<code class="language-plaintext highlighter-rouge">second</code>成员并返回即可。</p>
+
+<h4 id="c-实现">C++ 实现</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">sortByBits</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">arr</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">vp</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">vp</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]});</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">14</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">a</span><span class="p">)</span> <span class="o">++</span><span class="n">vp</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">sort</span><span class="p">(</span><span class="n">vp</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vp</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">p</span> <span class="o">:</span> <span class="n">vp</span><span class="p">)</span>
+            <span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="1357-apply-discount-every-n-orders-medium">1357. Apply Discount Every n Orders #Medium</h2>
+
+<h3 id="题目描述-1">题目描述</h3>
+
+<p>There is a sale in a supermarket, there will be a <code class="language-plaintext highlighter-rouge">discount</code> every <code class="language-plaintext highlighter-rouge">n</code> customer.
+There are some products in the supermarket where the id of the <code class="language-plaintext highlighter-rouge">i-th</code> product is <code class="language-plaintext highlighter-rouge">products[i]</code> and the price per unit of this product is <code class="language-plaintext highlighter-rouge">prices[i]</code>.</p>
+
+<p>The system will count the number of customers and when the <code class="language-plaintext highlighter-rouge">n-th</code> customer arrive he/she will have a <code class="language-plaintext highlighter-rouge">discount</code> on the bill. (i.e if the cost is <code class="language-plaintext highlighter-rouge">x</code> the new cost is <code class="language-plaintext highlighter-rouge">x - (discount * x) / 100)</code>. Then the system will start counting customers again.</p>
+
+<p>The customer orders a certain amount of each product where <code class="language-plaintext highlighter-rouge">product[i]</code> is the id of the <code class="language-plaintext highlighter-rouge">i-th</code> product the customer ordered and <code class="language-plaintext highlighter-rouge">amount[i]</code> is the number of units the customer ordered of that product.</p>
+
+<p>Implement the <code class="language-plaintext highlighter-rouge">Cashier</code> class:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Cashier(int n, int discount, int[] products, int[] prices)</code> Initializes the object with <code class="language-plaintext highlighter-rouge">n</code>, the <code class="language-plaintext highlighter-rouge">discount</code>, the <code class="language-plaintext highlighter-rouge">products</code> and their <code class="language-plaintext highlighter-rouge">prices</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">double getBill(int[] product, int[] amount)</code> returns the value of the bill and apply the discount if needed. Answers within <code class="language-plaintext highlighter-rouge">10^-5</code> of the actual value will be accepted as correct.</li>
+</ul>
+
+<p><strong>Example 1:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input
+["Cashier","getBill","getBill","getBill","getBill","getBill","getBill","getBill"]
+[[3,50,[1,2,3,4,5,6,7],[100,200,300,400,300,200,100]],[[1,2],[1,2]],[[3,7],[10,10]],[[1,2,3,4,5,6,7],[1,1,1,1,1,1,1]],[[4],[10]],[[7,3],[10,10]],[[7,5,3,1,6,4,2],[10,10,10,9,9,9,7]],[[2,3,5],[5,3,2]]]
+Output
+[null,500.0,4000.0,800.0,4000.0,4000.0,7350.0,2500.0]
+Explanation
+Cashier cashier = new Cashier(3,50,[1,2,3,4,5,6,7],[100,200,300,400,300,200,100]);
+cashier.getBill([1,2],[1,2]);                        // return 500.0, bill = 1 * 100 + 2 * 200 = 500.
+cashier.getBill([3,7],[10,10]);                      // return 4000.0
+cashier.getBill([1,2,3,4,5,6,7],[1,1,1,1,1,1,1]);    // return 800.0, The bill was 1600.0 but as this is the third customer, he has a discount of 50% which means his bill is only 1600 - 1600 * (50 / 100) = 800.
+cashier.getBill([4],[10]);                           // return 4000.0
+cashier.getBill([7,3],[10,10]);                      // return 4000.0
+cashier.getBill([7,5,3,1,6,4,2],[10,10,10,9,9,9,7]); // return 7350.0, Bill was 14700.0 but as the system counted three more customers, he will have a 50% discount and the bill becomes 7350.0
+cashier.getBill([2,3,5],[5,3,2]);                    // return 2500.0
+</code></pre></div></div>
+
+<p><strong>Constraints:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= n &lt;= 10^4</code></li>
+  <li><code class="language-plaintext highlighter-rouge">0 &lt;= discount &lt;= 100</code></li>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= products.length &lt;= 200</code></li>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= products[i] &lt;= 200</code></li>
+  <li>There are <strong>not</strong> repeated elements in the array <code class="language-plaintext highlighter-rouge">products.</code></li>
+  <li><code class="language-plaintext highlighter-rouge">prices.length == products.length</code></li>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= prices[i] &lt;= 1000</code></li>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= product.length &lt;= products.length</code></li>
+  <li><code class="language-plaintext highlighter-rouge">product[i]</code> exists in <code class="language-plaintext highlighter-rouge">products.</code></li>
+  <li><code class="language-plaintext highlighter-rouge">amount.length == product.length</code></li>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= amount[i] &lt;= 1000</code></li>
+  <li>At most <code class="language-plaintext highlighter-rouge">1000</code> calls will be made to <code class="language-plaintext highlighter-rouge">getBill</code>.</li>
+  <li>Answers within <code class="language-plaintext highlighter-rouge">10^-5</code> of the actual value will be accepted as correct.</li>
+</ul>
+
+<h3 id="题目解析-1">题目解析</h3>
+
+<p>使用<code class="language-plaintext highlighter-rouge">unordered_map&lt;int, int&gt;</code>存储货物序号及对应单价，模拟购买过程即可。</p>
+
+<h4 id="c-实现-1">C++ 实现</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Cashier</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">Cashier</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">discount</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">products</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">prices</span><span class="p">)</span> <span class="o">:</span>
+            <span class="n">cnt</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">thre</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">disc</span><span class="p">(</span><span class="n">discount</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">products</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">um</span><span class="p">[</span><span class="n">products</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">prices</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="kt">double</span> <span class="n">getBill</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">product</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">res</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">product</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">um</span><span class="p">[</span><span class="n">product</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">*</span> <span class="n">amount</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">++</span><span class="n">cnt</span> <span class="o">%</span> <span class="n">thre</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">-</span> <span class="p">(</span><span class="n">disc</span> <span class="o">*</span> <span class="n">res</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="nl">private:</span>
+    <span class="kt">int</span> <span class="n">cnt</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">thre</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">disc</span><span class="p">;</span>
+    <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">um</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cm">/**
+ * Your Cashier object will be instantiated and called as such:
+ * Cashier* obj = new Cashier(n, discount, products, prices);
+ * double param_1 = obj-&gt;getBill(product,amount);
+ */</span>
+</code></pre></div></div>
+
+<h2 id="1358-number-of-substrings-containing-all-three-characters-medium">1358. Number of Substrings Containing All Three Characters #Medium</h2>
+
+<h3 id="题目描述-2">题目描述</h3>
+
+<p>Given a string <code class="language-plaintext highlighter-rouge">s</code> consisting only of characters <em>a</em>, <em>b</em> and <em>c</em>.</p>
+
+<p>Return the number of substrings containing <strong>at least</strong> one occurrence of all these characters <em>a</em>, <em>b</em> and <em>c</em>.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: s = "abcabc"
+Output: 10
+Explanation: The substrings containing at least one occurrence of the characters a, b and c are "abc", "abca", "abcab", "abcabc", "bca", "bcab", "bcabc", "cab", "cabc" and "abc" (again). 
+</code></pre></div></div>
+
+<p><strong>Example 2:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: s = "aaacb"
+Output: 3
+Explanation: The substrings containing at least one occurrence of the characters a, b and c are "aaacb", "aacb" and "acb". 
+</code></pre></div></div>
+
+<p><strong>Example 3:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: s = "abc"
+Output: 1
+</code></pre></div></div>
+
+<p><strong>Constraints:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">3 &lt;= s.length &lt;= 5 x 10^4</code></li>
+  <li><code class="language-plaintext highlighter-rouge">s</code> only consists of <em>a</em>, <em>b</em> or <em>c</em> characters.</li>
+</ul>
+
+<h3 id="题目解析-2">题目解析</h3>
+
+<p>首先，声明<code class="language-plaintext highlighter-rouge">array&lt;int, 3&gt;</code>类型的<code class="language-plaintext highlighter-rouge">cnt</code>，其中的元素分别表示<code class="language-plaintext highlighter-rouge">'a'</code>、<code class="language-plaintext highlighter-rouge">'b'</code>和<code class="language-plaintext highlighter-rouge">'c'</code>出现的次数；其次，使用<code class="language-plaintext highlighter-rouge">i</code>和<code class="language-plaintext highlighter-rouge">j</code>表示滑动窗口的左右边界，<code class="language-plaintext highlighter-rouge">j</code>向右移动遍历<code class="language-plaintext highlighter-rouge">s</code>，统计三个字符出现的次数，同时<code class="language-plaintext highlighter-rouge">i</code>向右移动直到滑动窗口不包含全部三个字符，此时的<code class="language-plaintext highlighter-rouge">i</code>为以当前字符结尾且包含全部三个字符的子串数量，将其累加<code class="language-plaintext highlighter-rouge">res</code>即可；最后，返回<code class="language-plaintext highlighter-rouge">res</code>即可。</p>
+
+<h4 id="c-实现-2">C++ 实现</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">numberOfSubstrings</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span> <span class="n">cnt</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="o">++</span><span class="n">cnt</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="sc">'a'</span><span class="p">];</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">cnt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">cnt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">cnt</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="o">--</span><span class="n">cnt</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]</span><span class="o">-</span><span class="sc">'a'</span><span class="p">];</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="1359-count-all-valid-pickup-and-delivery-options-hard">1359. Count All Valid Pickup and Delivery Options #Hard</h2>
+
+<h3 id="题目描述-3">题目描述</h3>
+
+<p>Given <code class="language-plaintext highlighter-rouge">n</code> orders, each order consist in pickup and delivery services.</p>
+
+<p>Count all valid pickup/delivery possible sequences such that delivery(i) is always after of pickup(i).</p>
+
+<p>Since the answer may be too large, return it modulo 10^9 + 7.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: n = 1
+Output: 1
+Explanation: Unique order (P1, D1), Delivery 1 always is after of Pickup 1.
+</code></pre></div></div>
+
+<p><strong>Example 2:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: n = 2
+Output: 6
+Explanation: All possible orders: 
+(P1,P2,D1,D2), (P1,P2,D2,D1), (P1,D1,P2,D2), (P2,P1,D1,D2), (P2,P1,D2,D1) and (P2,D2,P1,D1).
+This is an invalid order (P1,D2,P2,D1) because Pickup 2 is after of Delivery 2.
+</code></pre></div></div>
+
+<p><strong>Example 3:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: n = 3
+Output: 90
+</code></pre></div></div>
+
+<p><strong>Constraints:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= n &lt;= 500</code></li>
+</ul>
+
+<h3 id="题目解析-3">题目解析</h3>
+
+<p>高中数学里的排列组合问题，不赘述。</p>
+
+<h4 id="c-实现-3">C++ 实现</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">countOrders</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">long</span> <span class="kt">long</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">1e9</span> <span class="o">+</span> <span class="mi">7</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">res</span> <span class="o">*=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="n">res</span> <span class="o">%=</span> <span class="n">m</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
