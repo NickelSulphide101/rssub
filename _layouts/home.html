@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+<div class="home">
+
+  {{ content }}
+
+  <ul class="category-list">
+      <div class="category-item"><button class="category-but all-but" onclick="show_all()" value="all">All {{ site.posts | size }}</button></div>
+      {% for category in site.categories %}
+      <div class="category-item"><button class="category-but" onclick="show_and_hide(this)" value="{{ category | first }}">{{ category | first }} {{ category | last | size }}</button></div>
+      {% endfor %}
+  </ul>
+
+  {%- if site.posts.size > 0 -%}
+    <ul class="post-list">
+      {%- for post in site.posts -%}
+      <li class="post-card" id="{{ post.category }}">
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        <p class="post-meta">
+          <span>{{ post.source }}</span>
+          {%- assign date_format = site.minima.date_format | default: "%Y-%m-%d %H:%M:%S" -%}
+          <span>{{ post.date | date: date_format }}</span></p>
+        {{ post.description }}... <a href="{{ post.url | relative_url }}">Read More</a>
+      </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <script>
+    {%- include button.js -%}
+  </script>
+
+</div>
