@@ -1,15 +1,45 @@
 {
 	"News": {
-		"BBC News - World": "http://127.0.0.1:1200/bbc/world"
-	},
-	"Acticles": {
 		"爱范儿": "https://www.ifanr.com/feed",
-		"好奇心日报 - 长文章": "http://127.0.0.1:1200/qdaily/tag/1068"
+		"知乎日报": "https://feedx.net/rss/zhihudaily.xml",
+		"知乎每日精选": "https://www.zhihu.com/rss",
+		"好奇心日报 - 长文章": "https://rsshub.app/qdaily/tag/1068",
+		"好奇心日报 - 大公司头条": "https://rsshub.app/qdaily/tag/29"
 	},
-	"Posts": {
-		"V2EX - 最热主题": "http://127.0.0.1:1200/v2ex/topics/hot"
+	"传统媒体": {
+		"新闻联播 - 文字版": "https://xrsshub.herokuapp.com/xinwenlianbo/index"
+		"每周质量报告": "https://xrsshub.herokuapp.com/cctv/mzzlbg",
+		"亚马跌": "https://www.ymdie.com/feed",
+		"澎湃新闻 - 首页头条": "https://xrsshub.herokuapp.com/thepaper/featured",
 	},
-	"Blogs": {
+	"其他": {
+		"北京天文馆每日一图": "https://xrsshub.herokuapp.com/bjp/apod"
+		"Photo of the Day": "https://xrsshub.herokuapp.com/natgeo/dailyphoto",
+		"Vicats(@vicatslive)'s Instagram": "https://xrsshub.herokuapp.com/instagram/user/_vicats",
+		"sht - 华拍": "https://xrsshub.herokuapp.com/dsndsht23/picture/hrxazp"
+		"技術討論區": "https://xrsshub.herokuapp.com/t66y/7",
+		"福利吧": "https://fulibus.net/feed",
+	},
+	"技术论坛": {
+		"V2EX - 最热主题": "https://rsshub.app/v2ex/topics/hot"
+		"小众软件": "http://www.appinn.com/feed/"
+		"少数派": "http://sspai.com/feed",
+		"奔跑中的奶酪": "https://www.runningcheese.com/feed",
+		"简书 7 日热门": "https://xrsshub.herokuapp.com/jianshu/trending/weekly"
+	},
+	"资源": {
 		"ProgramCZ's Blog": "https://programcz.github.io/feed.xml"
+		"404 NOT FOUND": "https://404edublog.cf/?feed=rss2"
+		"Leonn 的博客": "https://liyuans.com/feed/",
+		"Mr.KevinH": "https://www.mrkevin.net/feed",
+		"Rat's Blog": "https://www.moerats.com/feed/"
+		"Romeng's blog": "https://www.romeng.men/feed/",
+		"XZYMOE'S BLO": "https://www.xzymoe.com/feed/",		
+		"可乐博客": "https://404edublog.cf/?feed=rss2"
+		"天涯风铃博客": "https://www.tyf0.com/feed/",
+		"香菇肥牛的博客": "https://qing.su/feed",
+		"如有乐享": "http://51.ruyo.net/feed/"
+		"Jialezi `s blog": "http://blog.jialezi.net/rss.php",
+		"XZYMOE'S BLO": "https://www.xzymoe.com/feed/",
 	}
 }
